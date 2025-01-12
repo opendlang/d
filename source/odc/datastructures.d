@@ -32,9 +32,7 @@ Different usecases should make bipolar safety tradeoffs, and you dont really wan
 all my data structures will be start-off as "fail-safe" in the real sense of the word, if theres need for adding options later we can talk about that api design for communicating the tradeoffs in template hell code, all at once, not case by case. Maybe an magic enum, maybe a compiler flag?
 */
 //copied from `belongsinstd` see that for rants, TODO: merge something and import that
-template innate(T,T startingvalue=T.init,discrimination...){
-	T innate=startingvalue;
-}
+
 //TODO: belongs elsewhere
 int clamp(int i,int a,int b){
 	if(i<a){return a;}
@@ -46,34 +44,7 @@ unittest{
 	assert(1.clamp(0,5)==1);
 	assert(10.clamp(0,5)==5);
 }
-//copied from min viable std TODO: belongs elsewhere
-alias seq(T...)=T;
-struct Tuple(T...){
-	enum istuple=true;
-	T expand; alias expand this;
-}
-auto tuple(T...)(T args){
-	return Tuple!T(args);
-}
-unittest{
-	auto foo=tuple(1,"hi");
-	assert(foo[0]==1);
-	assert(foo[1]=="hi");
-	auto bar=tuple();
-}
-auto totuple(T)(T a) if(is(typeof(a.istuple)))=>a;
-auto totuple(T)(T a) if( ! is(typeof(a.istuple)))=>tuple(a);
-auto maybetuple(T...)(T a){
-	static if(T.length==1){
-		return a[0];
-	} else {
-		return tuple(a);
-}}
-enum istuple(T)=is(typeof(T.istuple));
-unittest{
-	assert(istuple!(typeof(tuple(1,2)))==true);
-	assert(istuple!int==false);
-}
+
 struct simplerange(D){
 	D* data;
 	int key;

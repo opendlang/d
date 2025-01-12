@@ -20,6 +20,12 @@ bidirectional
 	drop
 	dropBack
 */
+enum autodecoding=true;//TODO,false
+static if(autodecoding){
+	auto front(T)(T[] a)=>a[0];
+	void popFront(T)(ref T[] a){a=a[1..$];}
+	bool empty(T)(T[] a)=>a.length==0;
+}
 auto counter(int i/*exclusive*/){//TODO: swizzle args TODO: generic types TODO:step
 	struct Counter{
 		int key;
@@ -156,6 +162,9 @@ auto filter(alias F,R)(R r){
 		auto ref front()=>r.front;
 		void popFront(){r=r.findnext!F;}
 		bool empty()=>r.empty;
+		auto data()()=>r.data;
+		auto key()()=>r.key;
+		//TODO:
 	}
 	return Filter(r.find!F);
 }
@@ -243,6 +252,8 @@ auto range(T)(T[] a){
 		ref front()=>a[0];
 		void popFront(){a=a[1..$];}
 		bool empty()=>a.length==0;
+		auto data()=>&a;
+		auto key()=>0;//CONSIDER: should I make fater references?
 		//TODO:
 	}
 	return Range(a);
