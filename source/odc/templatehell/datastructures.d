@@ -17,7 +17,7 @@ api target:
 	.isstatic (enum)
 */
 
-module odc.datastructures;
+module odc.templatehell.datastructures;
 
 /* RANT: fail-safe vs fail-dangerous
 

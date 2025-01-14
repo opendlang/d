@@ -1,3 +1,4 @@
+module odc.templatehell.algorithm;
 /*
 core:
 	front (techincally optional now)
@@ -75,7 +76,7 @@ void summery(R)(R r){//temp?
 		writeln("empty: no compile");
 	}
 	static if(is(typeof(*r.data))){
-		writeln("data:",typeof(*r.data));
+		writeln("data:",typeof(*r.data).stringof);
 	} else {
 		writeln("data: no compile");
 	}
