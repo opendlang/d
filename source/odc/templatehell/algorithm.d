@@ -21,6 +21,14 @@ bidirectional
 	drop
 	dropBack
 */
+enum autodecoding=true;//TODO,false
+static if(autodecoding){
+	auto front(T)(T[] a)=>a[0];
+	void popFront(T)(ref T[] a){a=a[1..$];}
+	bool empty(T)(T[] a)=>a.length==0;
+}
+
+
 auto counter(int i/*exclusive*/){//TODO: swizzle args TODO: generic types TODO:step
 	struct Counter{
 		int key;
@@ -177,7 +185,7 @@ auto acc(alias F,R,A...)(R r,A args){//TODO: impliment empty and 1 length ranges
 		}
 		
 	}
-	return Acc(r,F(r.front,args));
+	return Acc(r,F(0,args));
 }
 unittest{
 	//counter(5).acc!((a,int b=0)=>a+b).summery;
@@ -242,8 +250,9 @@ auto range(T)(T[] a){
 	struct Range{
 		T[] a;
 		ref front()=>a[0];
-		void popFront(){a=a[1..$];}
+		void popFront(){a=a[1..$];key++;}
 		bool empty()=>a.length==0;
+		int key=0;
 		//TODO:
 	}
 	return Range(a);

@@ -31,7 +31,7 @@ Different usecases should make bipolar safety tradeoffs, and you dont really wan
 
 all my data structures will be start-off as "fail-safe" in the real sense of the word, if theres need for adding options later we can talk about that api design for communicating the tradeoffs in template hell code, all at once, not case by case. Maybe an magic enum, maybe a compiler flag?
 */
-
+import odc.templatehell.meta;
 //TODO: belongs elsewhere
 int clamp(int i,int a,int b){
 	if(i<a){return a;}
@@ -322,16 +322,16 @@ import std.algorithm: preduce=fold;
 //	struct fil{
 //		R r;
 //		
-auto map(alias F,R)(R r){
-	struct map_{
-		R r;
-		auto front()=>F(r.front);
-		void popFront(){r.popFront;}
-		bool empty()=>r.empty;
-		auto key()()=>r.key;
-	}
-	return map_(r);
-}
+//auto map(alias F,R)(R r){
+//	struct map_{
+//		R r;
+//		auto front()=>F(r.front);
+//		void popFront(){r.popFront;}
+//		bool empty()=>r.empty;
+//		auto key()()=>r.key;
+//	}
+//	return map_(r);
+//}
 //--- tests
 
 void test1(D)(){
