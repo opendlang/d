@@ -1,4 +1,4 @@
-module odc.templatehell.meta;
+module odc.meta;
 //TODO: copy and pasted from datastructures, probaly broke stuff
 alias seq(T...)=T;
 struct Tuple(T...){

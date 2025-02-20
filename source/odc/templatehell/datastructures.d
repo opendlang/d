@@ -18,7 +18,7 @@ api target:
 */
 
 module odc.templatehell.datastructures;
-
+import odc.meta;
 /* RANT: fail-safe vs fail-dangerous
 
 consider the door of a neclear code safe and a grocery store door, each are doors, each may get a tilt sensor, consider a `class door` and you wanted to assume a `bool isTilted` in the interface; after an earthquake the grocey store may design its doors to auto open, while the neclear safe may burn its contents
@@ -49,9 +49,13 @@ struct simplerange(D){
 	int key;
 	int until;
 	ref front()=>(*data)[key];
+	ref back()=>(*data)[until-1];
 	void popFront(){key++;}
+	void popBack(){until--;}
 	bool empty()=>key>=until;
 	int length()=>until-key;
+	auto drop(int i)=>typeof(this)(data,key+i,until);
+	auto dropBack(int i)=>typeof(this)(data,key,until-i);
 }
 
 //CONSIDER: mojo calls this fixedarray
@@ -212,8 +216,8 @@ struct ringarray(T,int N){//note: spelling cuircluar hard
 	enum isstatic=false;
 	auto lastindex()=>end-1;
 	void opOpAssign(string op:"~")(T a){
-		this[end++]=a;
-		if(start>=N&&end>N){
+		data[end++%$]=a;
+		if(start>=N&&end>=N){
 			start-=N;end-=N;
 		}
 	}
@@ -231,6 +235,7 @@ struct ringarray(T,int N){//note: spelling cuircluar hard
 		}
 		end--;
 	}
+	void remove(){start++;}
 	//TODO: removefast
 	void reset(){
 		start=0;
