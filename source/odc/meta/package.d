@@ -31,3 +31,18 @@ unittest{
 template innate(T,T startingvalue=T.init,discrimination...){
 	T innate=startingvalue;
 }
+struct nullable(T){
+	T get_; alias get_ this;
+	bool isnull=false;
+	int classify()=>isnull;
+	enum classmax=2;
+	alias get(int i=0)=get_;
+}
+template match(F...){
+auto match(T)(T t){
+	switch(t.classify){
+		static foreach(I;0..T.classmax){
+			case I: return F[I](t.get!I);
+		}
+	default: assert(0);
+}}}

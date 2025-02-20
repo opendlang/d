@@ -41,3 +41,25 @@ unittest{
 	//foo[].summery;
 }
 
+void classsort(R,A...)(R r,ref A arrays){
+	foreach(e;r){
+		lable: switch(e.classify){
+		static foreach(I;0..A.length){
+			case I: arrays[I]~=e.get!I;break lable;
+		}
+		default: assert(0);
+}}}
+unittest{
+	struct smallint{
+		int i;
+		int classify()=>i<=ubyte.max && i>=0;
+		enum classmax=2;
+		ubyte get(int zzz:1)()=>cast(ubyte)i;
+		alias get(int zzz:0)=i;
+	}
+	stack!int foo;
+	ubyte[] bar;
+	counter(5).map!(a=>smallint(a*100)).classsort(foo,bar);
+	//foo.summery;
+	//bar.summery;
+}

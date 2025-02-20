@@ -327,7 +327,7 @@ import std.algorithm: preduce=fold;
 //	struct fil{
 //		R r;
 //		
-auto map(alias F,R)(R r){
+auto oldmap(alias F,R)(R r){
 	struct map_{
 		R r;
 		auto front()=>F(r.front);
@@ -378,7 +378,7 @@ void test3(D)(){
 	}
 	auto keytype=foo[].key;
 	maxlengtharray!(typeof(keytype),100) keys;
-	auto r=foo[].map!(a=>a*20);
+	auto r=foo[].oldmap!(a=>a*20);
 	while( ! r.empty){
 		if(r.front> 30){
 			keys~=r.key;
