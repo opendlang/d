@@ -17,6 +17,8 @@ api target:
 	.isstatic (enum)
 */
 
+enum canonnames=true;
+
 module odc.templatehell.datastructures;
 import odc.meta;
 /* RANT: fail-safe vs fail-dangerous
@@ -58,7 +60,6 @@ struct simplerange(D){
 	auto dropBack(int i)=>typeof(this)(data,key,until-i);
 }
 
-//CONSIDER: mojo calls this fixedarray
 struct maxlengtharray(T,int N){
 	T[N] data;
 	int length;
@@ -255,10 +256,14 @@ struct stack(T,int N=-1){
 			}
 			data=data[0..$-1];
 		}
+		void remove(){
+			data=data[0..$-1];
+		}
 		void reset(){data=[];}
 	} else {
 		maxlengtharray!(T,N) data;
 		void remove(int i)=>data.remove(length-i-1);
+		void remove(){data.remove;}
 		void reset()=>data.reset;
 	}
 	enum isstatic=false;
@@ -269,6 +274,13 @@ struct stack(T,int N=-1){
 	auto length()=>cast(int)data.length;
 	ref opIndex(int i)=>data[$-i-1];
 	auto opSlice()=>simplerange!(typeof(this))(&this,0,length);
+	static if(canonnames){//from stl
+		void push(T e){this~=e;}
+		alias pop=remove;
+		bool empty()=>length==0;
+		ref T top()=>this[0];
+		//todo size, is it length or capisty?
+	}
 }
 struct queue(T,int N=-1){
 	static if(N==-1){
@@ -293,6 +305,20 @@ struct queue(T,int N=-1){
 	auto length()=>cast(int)data.length;
 	ref opIndex(int i)=>data[i];
 	auto opSlice()=>simplerange!(typeof(this))(&this,0,length);
+		static if(canonnames){//from stl
+		void push(T e){this~=e;}
+		alias pop=remove;
+		bool empty()=>length==0;
+		ref T top()=>this[0];
+		//todo size, is it length or capisty?
+	}
+	static if(canonnames){//from stl
+		void push(T e){this~=e;}
+		alias pop=remove;
+		bool empty()=>length==0;
+		ref T top()=>this[0];
+		//todo size, is it length or capisty?
+	}
 }
 //--- lazy temp-ish functions
 void print(D)(D data){
@@ -327,7 +353,7 @@ import std.algorithm: preduce=fold;
 //	struct fil{
 //		R r;
 //		
-auto oldmap(alias F,R)(R r){
+auto oldmap(alias F,R)(R r){//TODO delete, use algorthims
 	struct map_{
 		R r;
 		auto front()=>F(r.front);
