@@ -35,6 +35,7 @@ all my data structures will be start-off as "fail-safe" in the real sense of the
 */
 
 //TODO: belongs elsewhere
+//CONSIDER: if I actaully made odc.math, then imported it for this one function I think that may cause phoboes like import eveything; maybe this one function should be duplicated? rename?
 int clamp(int i,int a,int b){
 	if(i<a){return a;}
 	if(i>b){return b;}
@@ -97,6 +98,7 @@ hacks; would it be possible to make simple range know?*/
 		length--;
 	}
 }
+//CONSIDER: delete any commented out unittest?
 //unittest{//TODO formalize
 //	import std;
 //	maxlengtharray!(int,5) foo;
